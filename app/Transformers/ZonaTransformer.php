@@ -9,8 +9,6 @@ class ZonaTransformer extends TransformerAbstract
 {
   public function transform(Zona $zona)
   {
-    $zona->gejala = json_decode($zona->gejala,true);
-
     return [
       'id' => $zona->id,
       'nama' => $zona->alias.' ('.$zona->nama.')',
