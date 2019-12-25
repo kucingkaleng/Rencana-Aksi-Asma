@@ -16,7 +16,6 @@ class AuthController extends Controller
 
   public function login() {
     $credentials = request(['email', 'password']);
-
     if($token = auth()->attempt($credentials)){ 
       $user = Auth::user();
 
@@ -29,10 +28,10 @@ class AuthController extends Controller
         $u->update();
       }
     
-    $user->token = $token;
-    $user->load('role');
-    return RGP::fractal($user,UserTransformer::class,false);
-    // return response()->json(['access_token' => $token, 'user' => $user], $this->okStatus); 
+      $user->token = $token;
+      $user->load('role');
+      return RGP::fractal($user,UserTransformer::class,false);
+      // return response()->json(['access_token' => $token, 'user' => $user], $this->okStatus); 
     } 
     else{ 
       return response()->json(['error'=>'Unauthorized'], 401); 
@@ -63,7 +62,7 @@ class AuthController extends Controller
     }
 
     $input = $request->except(['nama','usia','jk','nomor_hp']);
-    $input['password'] = bcrypt($input['password']); 
+    $input['password'] = $input['password']; 
     $user = User::create($input);
 
     $input = $request->except(['email','password','role_id']);
