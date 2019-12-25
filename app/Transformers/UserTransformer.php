@@ -19,6 +19,7 @@ class UserTransformer extends TransformerAbstract
         'jk' => $user_data->jk,
         'usia' => $user_data->usia,
         'email' => $user->email,
+        'email' => $user_data->nomor_hp,
         'role' => $user->role
       ]
     ];
