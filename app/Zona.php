@@ -13,4 +13,8 @@ class Zona extends Model
   public function getGejalaAttribute ($value) {
     return \json_decode($value);
   }
+
+  public function getMutationsAttribute ($value) {
+    return \json_decode($value);
+  }
 }

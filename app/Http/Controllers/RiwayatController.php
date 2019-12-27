@@ -20,7 +20,7 @@ class RiwayatController extends Controller
     return response()->json('ok');
   }
 
-  public function show($id, Request $req)
+  public function show($user_id, Request $req)
   {
     $date = $req->get('date');
 
@@ -34,10 +34,10 @@ class RiwayatController extends Controller
     $skip = $page == 1 ? 0 : ($page-1)*$per_page;
 
     if ($date != null) {
-      $riwayat = $this->filter($id, $req);
+      $riwayat = $this->filter($user_id, $req);
     }
     else {
-      $riwayat = Riwayat::where('user', $id)
+      $riwayat = Riwayat::where('user', $user_id)
       ->take(200)
       ->orderBy('created_at','desc')
       ->get();

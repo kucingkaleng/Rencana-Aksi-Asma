@@ -14,8 +14,10 @@ class Riwayat extends Model
     return $this->belongsTo('App\Zona','zona');
   }
 
-  public function pilihan () {
-    return Pilihan::where('zona', '=', $this->zona)
-    ->where('order', '=', $this->pilihan_order)->first();
+  public function getChoiceAttribute ($value) {
+    if ($value == 1) {
+      return 'membaik';
+    }
+    return 'tidak membaik';
   }
 }

@@ -2,14 +2,31 @@
 
 namespace App\Http\Middleware;
 
-use Tymon\JWTAuth\Facades\JWTAuth;
+// use Tymon\JWTAuth\Facades\JWTAuth;
 use Closure;
+use JWTAuth;
+use Exception;
+use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
 
 class jwt
 {
   public function handle($request, Closure $next)
   {
-    JWTAuth::parseToken()->authenticate();
+    try {
+      $user = JWTAuth::parseToken()->authenticate();
+    }
+    catch (Exception $e) {
+      if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
+        return response(json_encode([
+          'message' => 'Token is invalid'
+        ]), 401);
+      }
+      else {
+        return response([
+          'message' => 'Authorization token not found'
+        ], 401);
+      }
+    }
     return $next($request);
   }
 }

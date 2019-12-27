@@ -16,8 +16,8 @@ class RiwayatTransformer extends TransformerAbstract
         'nama' => $riwayat->zonas->nama,
         'alias' => $riwayat->zonas->alias
       ],
-      'pilihan' => $riwayat->pilihan()->pilihan,
-      'hasil' => $riwayat->hasil == 1 ? 'Sukes' : 'Gagal',
+      'pilihan' => $riwayat->choice,
+      'keterangan' => 'Telah '.$riwayat->action_count.'x mencoba',
       'tanggal' => [
         'human' => Carbon::parse($riwayat->created_at)->format('Y-m-d H:i:s'),
         'tahun' => Carbon::parse($riwayat->created_at)->format('Y'),
