@@ -15,7 +15,8 @@ class ZonaShowTransformer extends TransformerAbstract
     return [
       'id' => $zona->id,
       'nama' => $zona->alias.' ('.$zona->nama.')',
-      'pilihan' => $pilihan
+      'pilihan' => $pilihan,
+      'config' => $zona->config
     ];
   }
 }

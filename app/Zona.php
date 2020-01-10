@@ -17,4 +17,8 @@ class Zona extends Model
   public function getMutationsAttribute ($value) {
     return \json_decode($value);
   }
+
+  public function getConfigAttribute ($value) {
+    return \json_decode($value);
+  }
 }

@@ -69,8 +69,8 @@ class MutationController extends Controller
     }
 
     $response = [
-      'notice' => 'lorem ipsum',
-      'action' => $tindakan
+      'action' => $tindakan->response,
+      'features' => $tindakan->features
     ];
     return response()->json($response);
   }
@@ -81,28 +81,35 @@ class MutationController extends Controller
     if ($actionCount == 1 && $choice == 1) {
       $response = [
         'status' => $zona->mutations->yes->status,
+        'message' => $zona->mutations->yes->message,
         'value' => $zona->mutations->yes->value
       ];
     }
     else if ($actionCount == 1 && $choice == 0) {
       $response = [
         'status' => $zona->mutations->no->status,
+        'message' => $zona->mutations->no->message,
         'value' => $zona->mutations->no->value
       ];
     }
     else if ($actionCount == 2 && $choice == 1) {
       $response = [
         'status' => $zona->mutations->yes->status,
+        'message' => $zona->mutations->yes->message,
         'value' => $zona->mutations->yes->value
       ];
     }
     else if ($actionCount == 2 && $choice == 0) {
       $response = [
         'status' => $zona->mutations->no->next->status,
+        'message' => $zona->mutations->no->next->message,
         'value' => $zona->mutations->no->next->value
       ];
     }
 
-    return (object) $response;
+    return (object) [
+      'response' => $response,
+      'features' => $zona->mutations->features
+    ];
   }
 }

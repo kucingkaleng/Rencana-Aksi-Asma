@@ -46,6 +46,10 @@ Route::post('commit/zona/action', 'MutationController@MutationZonaAction')->midd
 Route::get('riwayat/{user_id}', 'RiwayatController@show')->middleware('jwt');
 Route::post('riwayat', 'RiwayatController@store')->middleware('jwt');
 
+Route::get('custom-dokter', 'DokterController@index')->middleware('jwt');
+Route::post('custom-dokter', 'DokterController@create')->middleware('jwt');
+Route::delete('custom-dokter/{id}', 'DokterController@destroy')->middleware('jwt');
+
 Route::get('pencegahan', function () {
   $pencegahan = App\Pencegahan::all();
   return response()->json($pencegahan);
