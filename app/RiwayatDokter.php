@@ -38,6 +38,10 @@ class RiwayatDokter extends Model
     return $this->belongsTo(User::class, 'id_pasien');
   }
 
+  public function data_dokter () {
+    return $this->belongsTo(User::class, 'id_dokter');
+  }
+
   public function getCreatedAtAttribute ($value) {
     return [
       'human' => Carbon::parse($value)->format('Y-m-d H:i:s'),

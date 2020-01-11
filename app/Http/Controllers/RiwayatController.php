@@ -60,13 +60,15 @@ class RiwayatController extends Controller
   }
 
   public function getRiwayatDokter () {
+    $eager = ['data_pasien','data_pasien.data', 'data_dokter', 'data_dokter.data'];
+
     if (request()->get('id') != null) {
-      $data = $this->showRiwayatDokter(request()->get('id'));
+      $data = $this->showRiwayatDokter(request()->get('id'), $eager);
       return response()->json($data);
     }
 
     if (request()->get('id_dokter') != null) {
-      $data = RiwayatDokter::with(['data_pasien','data_pasien.data'])->where('id_dokter', request()->get('id_dokter'))->get();
+      $data = RiwayatDokter::with($eager)->where('id_dokter', request()->get('id_dokter'))->get();
       return response()->json($data);
     }
 
@@ -76,7 +78,7 @@ class RiwayatController extends Controller
       ], 400);
     }
 
-    $data = RiwayatDokter::with(['data_pasien','data_pasien.data'])->where('id_pasien', request()->get('id_pasien'))->get();
+    $data = RiwayatDokter::with($eager)->where('id_pasien', request()->get('id_pasien'))->get();
     return response()->json($data);
   }
 
@@ -91,8 +93,8 @@ class RiwayatController extends Controller
     return response()->json('ok');
   }
 
-  public function showRiwayatDokter ($id) {
-    $data = RiwayatDokter::with(['data_pasien','data_pasien.data'])->where('id', $id)->first();
+  public function showRiwayatDokter ($id, $eager) {
+    $data = RiwayatDokter::with($eager)->where('id', $id)->first();
     return $data;
   }
 
