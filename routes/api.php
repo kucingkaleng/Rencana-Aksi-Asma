@@ -40,15 +40,20 @@ Route::get('obat/{id}/dosis', 'ObatController@dosis')->middleware('jwt');
 
 Route::apiResource('zona', 'ZonaController');
 
+// Mutations or global state
 Route::post('dispatch/zona/{id}', 'MutationController@ActionSaveLastZona')->middleware('jwt');
 Route::post('commit/zona/action', 'MutationController@MutationZonaAction')->middleware('jwt');
 
+// Riwayat
 Route::get('riwayat/{user_id}', 'RiwayatController@show')->middleware('jwt');
 Route::post('riwayat', 'RiwayatController@store')->middleware('jwt');
 
-Route::get('riwayat-dokter', 'RiwayatController@getRiwayatDokter')->middleware('jwt');
+// Riwayat dari dokter
+Route::get('riwayat-dokter', 'RiwayatController@getRiwayatDokter');
 Route::post('riwayat-dokter', 'RiwayatController@storeRiwayatDokter')->middleware('jwt');
 Route::delete('riwayat-dokter/{id}', 'RiwayatController@destroyRiwayatDokter')->middleware('jwt');
+
+// Derajat asma
 Route::get('derajat-asma', function () {
   return response()->json([
     [
