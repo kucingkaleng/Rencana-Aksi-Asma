@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Transformers\RiwayatTransformer;
 use App\Helpers\RGP;
 use App\Riwayat;
+use App\RiwayatDokter;
+use Auth;
 
 class RiwayatController extends Controller
 {
@@ -57,13 +59,45 @@ class RiwayatController extends Controller
     return $riwayat;
   }
 
-  public function update(Request $request, $id)
-  {
-    //
+  public function getRiwayatDokter () {
+    if (request()->get('id') != null) {
+      $data = $this->showRiwayatDokter(request()->get('id'));
+      return response()->json($data);
+    }
+
+    if (request()->get('id_dokter') != null) {
+      $data = RiwayatDokter::where('id_dokter', request()->get('id_dokter'))->get();
+      return response()->json($data);
+    }
+
+    if (request()->get('id') == null && request()->get('id_pasien') == null && request()->get('id_dokter') == null) {
+      return response()->json([
+        'message' => 'gunakan salah satu param (id, id_dokter atau id_pasien)'
+      ], 400);
+    }
+
+    $data = RiwayatDokter::where('id_pasien', request()->get('id_pasien'))->get();
+    return response()->json($data);
   }
 
-  public function destroy($id)
-  {
-    //
+  public function storeRiwayatDokter () {
+    RiwayatDokter::create([
+      'id_pasien' => request()->id_pasien,
+      'id_dokter' => Auth::user()->id,
+      'derajat_asma' => request()->derajat_asma,
+      'obat' => json_encode(request()->obat),
+    ]);
+
+    return response()->json('ok');
+  }
+
+  public function showRiwayatDokter ($id) {
+    $data = RiwayatDokter::where('id', $id)->first();
+    return $data;
+  }
+
+  public function destroyRiwayatDokter ($id) {
+    $data = RiwayatDokter::where('id', $id)->delete();
+    return response()->json('deleted');
   }
 }

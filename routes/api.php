@@ -46,6 +46,30 @@ Route::post('commit/zona/action', 'MutationController@MutationZonaAction')->midd
 Route::get('riwayat/{user_id}', 'RiwayatController@show')->middleware('jwt');
 Route::post('riwayat', 'RiwayatController@store')->middleware('jwt');
 
+Route::get('riwayat-dokter', 'RiwayatController@getRiwayatDokter')->middleware('jwt');
+Route::post('riwayat-dokter', 'RiwayatController@storeRiwayatDokter')->middleware('jwt');
+Route::delete('riwayat-dokter/{id}', 'RiwayatController@destroyRiwayatDokter')->middleware('jwt');
+Route::get('derajat-asma', function () {
+  return response()->json([
+    [
+      'id' => 'intermiten',
+      'name' => 'Ringan'
+    ],
+    [
+      'id' => 'persisten ringan',
+      'name' => 'Sedang'
+    ],
+    [
+      'id' => 'persisten sedang',
+      'name' => 'Berat'
+    ],
+    [
+      'id' => 'persisten berat',
+      'name' => 'Ancaman Henti Napas'
+    ]
+  ]);
+});
+
 Route::get('custom-dokter', 'DokterController@index')->middleware('jwt');
 Route::post('custom-dokter', 'DokterController@create')->middleware('jwt');
 Route::delete('custom-dokter/{id}', 'DokterController@destroy')->middleware('jwt');
