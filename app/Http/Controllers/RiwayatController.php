@@ -67,6 +67,14 @@ class RiwayatController extends Controller
       return response()->json($data);
     }
 
+    if (request()->get('id_dokter') != null && request()->get('id_pasien') != null) {
+      $data = RiwayatDokter::with($eager)->where([
+        ['id_dokter', request()->get('id_dokter')],
+        ['id_pasien', request()->get('id_pasien')]
+      ])->get();
+      return response()->json($data);
+    }
+
     if (request()->get('id_dokter') != null) {
       $data = RiwayatDokter::with($eager)->where('id_dokter', request()->get('id_dokter'))->get();
       return response()->json($data);
@@ -83,11 +91,16 @@ class RiwayatController extends Controller
   }
 
   public function storeRiwayatDokter () {
+    if (is_array(request()->obat)) {
+      $obat = json_encode(request()->obat);
+    } else {
+      $obat = request()->obat;
+    }
     RiwayatDokter::create([
       'id_pasien' => request()->id_pasien,
       'id_dokter' => Auth::user()->id,
       'derajat_asma' => request()->derajat_asma,
-      'obat' => json_encode(request()->obat),
+      'obat' => $obat,
     ]);
 
     return response()->json('ok');
